@@ -1,6 +1,14 @@
 from zotero_arxiv_daily.retriever.arxiv_retriever import ArxivRetriever
 import feedparser
 import pickle
+from omegaconf import OmegaConf
+
+def test_arxiv_retriever_accept_categories_alias(config):
+    OmegaConf.set_struct(config, False)
+    config.source.arxiv.category = None
+    config.source.arxiv.categories = ["cs.AI"]
+    retriever = ArxivRetriever(config)
+    assert retriever.config.source.arxiv.category == ["cs.AI"]
 
 def test_arxiv_retriever(config, monkeypatch):
 

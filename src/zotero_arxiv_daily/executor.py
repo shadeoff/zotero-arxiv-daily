@@ -11,6 +11,8 @@ from .construct_email import render_email
 from .utils import send_email
 from openai import OpenAI
 from tqdm import tqdm
+from .keyword_filter import filter_papers_by_keywords
+
 class Executor:
     def __init__(self, config:DictConfig):
         self.config = config
@@ -67,6 +69,8 @@ class Executor:
         for source, retriever in self.retrievers.items():
             logger.info(f"Retrieving {source} papers...")
             papers = retriever.retrieve_papers()
+            source_config = getattr(self.config.source, source)
+            papers = filter_papers_by_keywords(papers, source_config.get("keywords"))
             if len(papers) == 0:
                 logger.info(f"No {source} papers found")
                 continue
