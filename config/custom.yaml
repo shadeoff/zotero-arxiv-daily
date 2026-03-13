@@ -20,7 +20,8 @@ llm:
 source:
   arxiv:
     category: ["cs.AI","cs.CV","cs.LG","cs.CL"]
-    keywords: null
+    keywords:       
+      "Graph": 1
 
 executor:
   debug: ${oc.env:DEBUG,null}
